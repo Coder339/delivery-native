@@ -1,6 +1,5 @@
 
 import React,{ useState,useContext,useEffect } from 'react';
-// import PasswordInputText from 'react-native-hide-show-password-input';
 import { 
     StyleSheet, 
     Text, 
@@ -15,8 +14,9 @@ import {
     Keyboard } from 'react-native'
 
 import Colors from '../constants/colors';
+import { MaterialCommunityIcons as Icon,Ionicons } from '@expo/vector-icons';
 import {AuthContext} from "../utils/Context"; 
-import PasswordInputText from '../utils/PasswordInputText';
+// import PasswordInputText from '../utils/PasswordInputText';
 
 
 export default function Login({props,navigation}) {
@@ -25,8 +25,13 @@ export default function Login({props,navigation}) {
     
     const [username, setusername] = useState('')
     const [usernameError,setusernameError] = useState('')
+    const [password,setPassword] = useState('')
+    const [passError,setpassError] = useState('')
+    const [iconName,seticonName] = useState('eye-off')
+    const [secureEntry,setsecureEntry] = useState(true)
+
     const [loading,  setloading] = useState(true)
-    // const [userToken, setuserToken] = useState(null)
+    
     const { signIn } = useContext(AuthContext);
     
     const usernameHandler = (text) => {
@@ -41,10 +46,39 @@ export default function Login({props,navigation}) {
             setusernameError('')
         }
     }
+    
+    const passwordHandler = (text) => {
+        setPassword(text)
+    }
+     
+    const passwordValidator = () => {
+        if (password === ''){
+            setpassError(' < Password field can not be empty >')
+        }
+        else{
+            setpassError('')
+        }
+    }
+    const IconHandler = () =>{
+        if (secureEntry){
+            seticonName('eye')
+        }else{
+            seticonName('eye-off')
+        }
+
+        setsecureEntry(!secureEntry)
+    }
+
+    // const loginHandler = (username,password) => {
+    //     signIn(username,password)
+    // }
 
     const resetHandler = () => {
         setusername('')
         setusernameError('')
+        setPassword('')
+        setpassError('')
+        
     }
     // const tokenHandler = () =>{
     //     setuserToken('asdf')                                     no use here
@@ -87,7 +121,31 @@ export default function Login({props,navigation}) {
                             />
                         </View>
                         <View style={{marginTop:10}}>
-                            <PasswordInputText />  
+                            <View style={{flexDirection:'row',marginTop:0}}>
+                                <Text style={{marginLeft:1}}>Password</Text>
+                                <Text style={{color:'red',marginLeft:20}}>{passError}</Text>
+                            </View>
+                            <View 
+                                style={{borderBottomWidth:0.3,
+                                        width:260,
+                                        marginTop:25,
+                                        flexDirection:'row',
+                                        justifyContent:'space-between'}}
+                                >
+                                <TextInput 
+                                    secureTextEntry={secureEntry}
+                                    placeholder='  Enter Your Password...'
+                                    onChangeText={passwordHandler}
+                                    value={password}
+                                    onBlur={()=>{passwordValidator()}}
+                                />
+                                <TouchableOpacity 
+                                    onPress={()=>IconHandler()}>
+                                    <Icon 
+                                    name={iconName} size={20}
+                                    />
+                                </TouchableOpacity>
+                            </View>
                         </View>
                 </View>
                 <View style={{flex:1,marginVertical:10,alignItems:'center',width:250}}>
@@ -96,9 +154,9 @@ export default function Login({props,navigation}) {
                         <Button 
                             color={Colors.primary}
                             title='login' 
-                            onPress={() => signIn()}
+                            onPress={() => signIn(username, password)}
                         />
-                        <Text style={{padding:20}}>FORGET PASSWORD</Text>
+                        <Text style={{padding:20}}>FORGOT PASSWORD</Text>
                     </View>
                     
                 </View>

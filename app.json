@@ -1,6 +1,6 @@
 {
   "expo": {
-    "sdkVersion": "37.0.1",
+    "sdkVersion": "37.0.0",
     "name": "delivery",
     "slug": "delivery",
     "platforms": [
@@ -26,7 +26,10 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.leanvia.delivery"
+      "package": "com.leanvia.delivery",
+      "config": {
+        "googleMaps": { "apikey":"AIzaSyAinXxg2VGTFxOOCNp7f19AyCZJpPlUUsI" }
+      }
     }
     
   }

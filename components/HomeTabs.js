@@ -19,11 +19,11 @@ export default function HomeTabs() {
               iconName = focused
               ? 'md-pin'
               : 'md-pin';
-            } else if (route.name === 'PickUp') {
+            } else if (route.name === 'Orders') {
               iconName = focused
               ? 'md-arrow-dropup'
               : 'md-arrow-dropup';
-            } else if (route.name === 'DropOff') {
+            } else if (route.name === 'Deliveries') {
               iconName = focused
               ? 'md-arrow-dropdown'
               : 'md-arrow-dropdown';
@@ -41,8 +41,8 @@ export default function HomeTabs() {
             }}
           >
           <Tab.Screen name="Map" component={MapNavigation} />
-          <Tab.Screen name="PickUp" component={PickNavigation} />
-          <Tab.Screen name="DropOff" component={DropNavigation} />
+          <Tab.Screen name="Orders" component={PickNavigation} />
+          <Tab.Screen name="Deliveries" component={DropNavigation} />
         </Tab.Navigator>
     );
   }

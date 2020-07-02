@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View,Image,TouchableOpacity } from 'react-native'
 import Colors from '../../constants/colors';
 import { MaterialCommunityIcons,Ionicons } from '@expo/vector-icons';
+import GoogleMap from './GoogleMap';
 
 export default function Map({navigation}) {
     return (
@@ -46,11 +47,7 @@ export default function Map({navigation}) {
                     </View>
                 </View>
             </TouchableOpacity>
-            <View style={{
-                  flex:1,
-                  borderWidth:0}}>
-                  
-            </View>
+            <GoogleMap />
         </View>
     )
 }

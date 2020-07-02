@@ -47,28 +47,6 @@ export default function CustomDrawerContent(props) {
               label="Home"
               onPress={() => props.navigation.navigate('home')}
             />
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Ionicons 
-                name='md-jet' 
-                size={size} 
-                color={color='#030817'} 
-                />
-              )}
-              label="Deliveries"
-              onPress={() => props.navigation.navigate('Delivery')}
-            />
-          <DrawerItem
-              icon={({ color, size }) => (
-                    <MaterialCommunityIcons
-                    name="bookmark-outline"
-                    color={color='#030817'} 
-                    size={size}
-                    />
-              )}
-              label="Notifications"
-              onPress={() => props.navigation.navigate('Notifications')}
-            />
             
           <Drawer.Section title="Actions">
             <DrawerItem
@@ -83,37 +61,16 @@ export default function CustomDrawerContent(props) {
               
               onPress={() => props.navigation.navigate('Help')}
             />
-            <DrawerItem
-              icon={({ color, size }) => (
-                <MaterialCommunityIcons
-                  name="alert-circle"
-                  color={color='#E74C3C'}
-                  size={size}
-                />
-              )}
-              label="Issue"
-              onPress={() => props.navigation.navigate('Issue')}
-            />
-          </Drawer.Section>
-          <Drawer.Section title="Mode">
-            <TouchableRipple onPress={() => {}}>
-              <View style={styles.preference}>
-                <Text>Dark Theme</Text>
-                <View pointerEvents="none">
-                  <Switch value={false} />
-                </View>
-              </View>
-            </TouchableRipple>
           </Drawer.Section>
           <DrawerItem
               icon={({ color, size }) => (
                     <MaterialCommunityIcons
-                    name="settings-outline"
+                    name="bookmark-outline"
                     color={color='#030817'}
                     size={size}
                     />
               )}
-              label="Settings"
+              label="About App"
               onPress={() => props.navigation.navigate('Settings')}
             />
       </DrawerContentScrollView>

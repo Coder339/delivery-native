@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
-import React, { useMemo, useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
+import React, { useMemo, useState, useEffect,useReducer } from 'react';
 import { 
   Button, 
   View,
@@ -16,42 +17,19 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer,DarkTheme,DefaultTheme } from '@react-navigation/native';
 
 import MyDrawer from './components/DrawerNavigation';
-// import AuthStackScreen from './components/AuthStack';
+import AuthStackScreen from './components/AuthStack';
 import { AuthContext } from './utils/Context';
 
 
 import Splash from './screens/Splash'
-import Login from './screens/Login';
-import Register from './screens/Signup';
-import Welcome from './screens/Welcome';
-
-const AuthStack = createStackNavigator();
-
-const AuthStackScreen = () => (
-  <AuthStack.Navigator>
-    <AuthStack.Screen
-      name="Welcome"
-      component={Welcome}
-      options={{ title: "W E L C O M E" }}
-    />
-    <AuthStack.Screen
-      name="SignIn"
-      component={Login}
-      options={{ title: "Sign In" }}
-    />
-    <AuthStack.Screen
-      name="Create Account"
-      component={Register}
-      options={{ title: "Create Account" }}
-    />
-  </AuthStack.Navigator>
-);
 
 const RootStack = createStackNavigator();
 
-const RootStackScreen = ({ userToken,isLoading }) => (
+const RootStackScreen = ({ userToken }) => (
+  
   <RootStack.Navigator headerMode="none">
-    {userToken ? (
+    
+    {userToken ? ( 
       <RootStack.Screen
         name="App"
         component={MyDrawer}
@@ -62,7 +40,6 @@ const RootStackScreen = ({ userToken,isLoading }) => (
     ) : (
       <RootStack.Screen
         name="Auth"
-        // initialParams={{ Loading: isLoading }}
         component={AuthStackScreen}
         options={{
           animationEnabled: false
@@ -75,8 +52,8 @@ const RootStackScreen = ({ userToken,isLoading }) => (
 
 
 export default function App() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [userToken, setUserToken] = useState(null);
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [userToken, setUserToken] = useState(null);
 
   const colorScheme = useColorScheme()
 
@@ -91,31 +68,103 @@ export default function App() {
     },
   };
 
-  const authContext = useMemo(() => {
-    return {
-      signIn: () => {
-        setIsLoading(false);
-        setUserToken("asdf");
+  let userToken;
+      userToken = null;
+
+  const initialLoginState = {
+    isLoading: true,
+    username: null,
+    userToken: null,
+  };
+
+  const loginReducer = (prevState,action) => {
+    console.log('vikas')
+    console.log(action.type)
+    console.log(action.token)
+    switch( action.type ) {
+      case 'RETRIEVE_TOKEN':
+        return {
+          ...prevState,
+          userToken: action.token,
+          isLoading: false,
+        };
+      case 'LOGIN':
+        return {
+          ...prevState,
+          username: action.id,
+          userToken: action.token,
+          isLoading: false,
+        };
+      case 'LOGOUT':
+        return {
+          ...prevState,
+          username: null,
+          userToken: null,
+          isLoading: false,
+        };
+      case 'REGISTER':
+        return {
+          ...prevState,
+          username: action.id,
+          userToken: action.token,
+          isLoading: false,
+        };
+    }
+    
+  };
+  
+  const [loginState,dispatch] = useReducer(loginReducer,initialLoginState)
+  
+
+  const authContext = useMemo(() => ({
+      signIn: async(username,password) => {
+        // setIsLoading(false);
+        // setUserToken("asdf");
+        
+        console.log(username)
+        console.log(password)
+        if( username === "vikas001" && password === "pass123"){
+          try {
+            userToken = 'abcd'
+            await AsyncStorage.setItem('userToken', userToken)
+          } catch (e) {
+            console.log(e)
+          }
+        }
+        dispatch({ type: 'LOGIN',id: username, token: userToken})
+        // console.log(userToken)
       },
       signUp: () => {
         setIsLoading(false);
         setUserToken("asdf");
       },
-      signOut: () => {
-        setIsLoading(false);
-        setUserToken(null);
-      }
+      signOut: async() => {
+        // setIsLoading(false);
+        // setUserToken(null);
+        try {
+          await AsyncStorage.removeItem('userToken')
+        } catch (e) {
+          console.log(e)
+        }
+        dispatch({type: 'LOGOUT'})
+      },
   
-    };
-  }, []);
+  }), []);
+  
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
+    setTimeout(async() => {
+      // setIsLoading(false);
+      try {
+        userToken = await AsyncStorage.getItem('userToken')
+      } catch (e) {
+        console.log(e)
+      }
+      dispatch({type: 'RETRIEVE_TOKEN',token: userToken})
     }, 1000);
   }, []);
 
-  if (isLoading) {
+  if (loginState.isLoading) {
     return <View style={styles.container}>
               <ActivityIndicator size="large" color="#0000ff" />
            </View>;
@@ -128,8 +177,7 @@ export default function App() {
          <AppearanceProvider>
             <AuthContext.Provider value={authContext}>
               <NavigationContainer theme={colorScheme === 'dark'? DarkTheme : MyTheme}>
-                <RootStackScreen userToken = {userToken}/>
-                {/* <Login isLoading={isLoading}/> */}
+                <RootStackScreen userToken={loginState.userToken}/>
               </NavigationContainer>
             </AuthContext.Provider>
           </AppearanceProvider>

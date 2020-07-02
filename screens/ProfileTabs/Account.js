@@ -125,7 +125,7 @@ const Account=({navigation})=>{
     }
 
     const countryHandler = (text) => {
-      setaddress(text)
+      setcountry(text)
     }
     
     const countryValidator = () => {

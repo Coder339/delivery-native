@@ -14,7 +14,7 @@ import Colors from '../../constants/colors';
 // import MyDrawer from '../../components/DrawerNavigation';
 
 export default function Pickup({navigation}) {
-    const nowArray = ['merchent1',
+    const pubArray = ['merchent1',
                       'merchent2',
                       'merchent3',
                       'merchent4',
@@ -27,7 +27,7 @@ export default function Pickup({navigation}) {
                       'merchent5',
                       'merchent6']  // just layout,delete after
 
-    const schArray = ['merchent1',
+    const conArray = ['merchent1',
                         'merchent2',
                         'merchent3',
                         'merchent4',
@@ -38,16 +38,16 @@ export default function Pickup({navigation}) {
                        '../../src/images/delivery-man.png'] // just layout,delete after
 
     const [search, setSearch] = useState('')
-    const [nowcolor ,setnowColor] = useState('#1C72BD')
-    const [schcolor,setschColor] = useState('black')
-    const [now, setNow]  = useState('now')
-    const [scheduled,setScheduled] = useState('scheduled')
+    const [nowcolor ,setpubColor] = useState('#1C72BD')
+    const [schcolor,setconColor] = useState('black')
+    const [published, setPublished]  = useState('published')
+    const [confirmed,setConfirmed] = useState('confirmed')
 
     const updateSearch = (text) => {
         setSearch(text)
     }
     
-    const nowlist = nowArray.map((todo,index) => 
+    const publist = pubArray.map((todo,index) => 
                                 <TouchableOpacity style={{
                                     flex:1,
                                     flexDirection:'row',
@@ -95,9 +95,9 @@ export default function Pickup({navigation}) {
                                     </View>
                                 </TouchableOpacity>)
 
-    const [merchent, setMerchent] = useState(nowlist)
+    const [merchent, setMerchent] = useState(publist)
 
-    const schlist = schArray.map((todo,index) => 
+    const conlist = conArray.map((todo,index) => 
                                 <TouchableOpacity style={{
                                     flex:1,
                                     flexDirection:'row',
@@ -143,15 +143,15 @@ export default function Pickup({navigation}) {
                                     </View>
                                 </TouchableOpacity>)
     
-    const NowHandler = () => {
-        setMerchent(nowlist)
-        setnowColor('#1C72BD')
-        setschColor('black')
+    const PublishedHandler = () => {
+        setMerchent(publist)
+        setpubColor('#1C72BD')
+        setconColor('black')
     }
-    const ScheduledHandler = () => {
-        setMerchent(schlist)
-        setschColor('#1C72BD')
-        setnowColor('black')
+    const ConfirmedHandler = () => {
+        setMerchent(conlist)
+        setconColor('#1C72BD')
+        setpubColor('black')
     }
 
     return (
@@ -225,12 +225,12 @@ export default function Pickup({navigation}) {
                                 height:40,
                                 width: '50%',
                                 }}
-                                onPress={()=>{NowHandler()}}>
+                                onPress={()=>{PublishedHandler()}}>
                                 <Text style={{
                                     fontSize:17,
                                     color:nowcolor,
                                         }}>
-                                    Now
+                                    Published
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={{
@@ -239,12 +239,12 @@ export default function Pickup({navigation}) {
                                 height:40,
                                 width: '50%',
                                 }}
-                                onPress={()=>{ScheduledHandler()}}>
+                                onPress={()=>{ConfirmedHandler()}}>
                                 <Text style={{
                                     fontSize:17,
                                     color:schcolor,
                                         }}>
-                                    Scheduled
+                                    Confirmed
                                 </Text>
                             </TouchableOpacity>
                     </View>

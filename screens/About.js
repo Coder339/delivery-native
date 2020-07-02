@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 export default function About() {
     return (
         <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-            <Text>Today/scheduled</Text>
+            <Text>AboutApp</Text>
         </View>
     )
 }

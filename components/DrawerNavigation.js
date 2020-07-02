@@ -6,7 +6,7 @@ import CustomDrawerContent from '../utils/CustomDrawer';
 import Notifications from '../screens/Notification';
 import Help from '../screens/Help';
 import Issue from '../screens/Issue';
-import Settings from '../screens/Settings'
+import About from '../screens/About'
 
 import DelTabs from './DelTab';
 import HomeTabs from './HomeTabs';
@@ -36,7 +36,7 @@ export default function MyDrawer() {
           <Drawer.Screen name="Delivery" component={DelTabs} />
           <Drawer.Screen name="Help" component={Help} />
           <Drawer.Screen name="Issue" component={Issue} />
-          <Drawer.Screen name="Settings" component={Settings} />
+          <Drawer.Screen name="Settings" component={About} />
     </Drawer.Navigator>
   );
 }
